@@ -2,61 +2,63 @@ package com.elfefe.common.pager.page
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.*
-import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.unit.dp
-import com.jcraft.jsch.*
+import com.jcraft.jsch.JSch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.awt.event.KeyEvent
-import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.PrintStream
+
 
 class Ssh : PageImpl() {
     private val session = JSch().getSession("elfefe", "localhost").apply {
         setPassword("elfefe")
         setConfig("StrictHostKeyChecking", "no")
+        connect(CONNECTION_TIMEOUT)
     }
+    private val channel = session.openChannel("shell").apply {
+        outputStream = communicationStream
+    }
+
+    private val communicationStream = ByteArrayOutputStream()
 
     private val scope = CoroutineScope(Dispatchers.Default)
 
     private fun executeSsh(command: String, onOutput: (String) -> Unit) {
         scope.launch(Dispatchers.IO) {
-            println("Is session connected ${session.isConnected}")
+            val printStream = PrintStream(channel.outputStream, true)
 
             if (!session.isConnected)
                 session.connect(CONNECTION_TIMEOUT)
+            if (!channel.isConnected)
+                channel.connect(CONNECTION_TIMEOUT)
 
-            val channel = (session.openChannel("exec") as ChannelExec)
-
-            channel.inputStream = null
-
-            val errorStream = ByteArrayOutputStream()
-            channel.setErrStream(errorStream)
-
-            channel.setCommand(command)
-
-            channel.connect()
+            printStream.println(command)
 
             do {
                 delay(20)
 
-                onOutput(channel.inputStream.readAllBytes().decodeToString())
-                onOutput(errorStream.toByteArray().decodeToString())
+                onOutput(communicationStream.toByteArray().decodeToString())
+                communicationStream.reset()
             } while (channel.isConnected)
         }
     }
@@ -89,7 +91,7 @@ class Ssh : PageImpl() {
                         .fillMaxHeight(0.75f)
                         .fillMaxWidth(0.7f)
                         .onKeyEvent {
-                            if (it.key == Key(KeyEvent.VK_ENTER)){
+                            if (it.key == Key(KeyEvent.VK_ENTER)) {
                                 executeSsh(command) { text ->
                                     logs += text
                                 }
@@ -105,10 +107,10 @@ class Ssh : PageImpl() {
                 )
                 IconButton(
                     onClick = {
-                    executeSsh(command) {
-                        logs += it
-                    }
-                },
+                        executeSsh(command) {
+                            logs += it
+                        }
+                    },
                     modifier = Modifier
                         .width(72.dp)
                         .fillMaxHeight()
@@ -117,10 +119,10 @@ class Ssh : PageImpl() {
                 }
                 IconButton(
                     onClick = {
-                    executeSsh(command) {
-                        logs = ""
-                    }
-                },
+                        executeSsh(command) {
+                            logs = ""
+                        }
+                    },
                     modifier = Modifier
                         .width(72.dp)
                         .fillMaxHeight()
@@ -147,21 +149,4 @@ class Ssh : PageImpl() {
     companion object {
         private const val CONNECTION_TIMEOUT = 1 * 60 * 1000
     }
-}
-
-class News : PageImpl() {
-    @Composable
-    override fun Show() {
-        Column(
-            modifier =
-            Modifier
-                .fillMaxSize()
-                .background(Color.Cyan),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Icon(Icons.Default.AccountBox, "", Modifier.size(72.dp))
-        }
-    }
-
 }

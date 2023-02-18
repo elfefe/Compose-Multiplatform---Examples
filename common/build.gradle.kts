@@ -27,6 +27,9 @@ kotlin {
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
 
                 implementation("com.jcraft:jsch:0.1.55")
+
+                implementation("org.apache.poi:poi:5.2.0")
+                implementation("org.apache.poi:poi-ooxml:5.2.0")
             }
         }
         val commonTest by getting {
