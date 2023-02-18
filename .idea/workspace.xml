@@ -10,10 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19565c68-bab6-4396-8b42-416e6b9fc1cc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/common/src/commonMain/kotlin/com/elfefe/common/pager/page/Ssh.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/common/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/com/elfefe/common/pager/page/Pages.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/commonMain/kotlin/com/elfefe/common/pager/page/Excel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/commonMain/kotlin/com/elfefe/common/pager/page/Excel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/commonMain/kotlin/com/elfefe/common/pager/page/Excel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/jvmMain/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/jvmMain/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
