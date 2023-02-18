@@ -9,7 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.elfefe.common.pager.Pager
-import com.elfefe.common.pager.page.Gallery
+import com.elfefe.common.pager.page.Ssh
 import com.elfefe.common.pager.page.News
 import com.elfefe.common.pager.page.PageImpl
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun App() {
 
-    val pages = listOf(Gallery(), News())
+    val pages = listOf(Ssh(), News())
 
     var pageIndex by remember { mutableStateOf(0) }
 

@@ -1,5 +1,3 @@
-import org.jetbrains.compose.compose
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -8,6 +6,8 @@ plugins {
 
 group = "com.elfefe"
 version = "1.0-SNAPSHOT"
+
+val ktorVersion = "2.2.3"
 
 kotlin {
     android()
@@ -20,7 +20,13 @@ kotlin {
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
+
                 implementation("com.google.code.gson:gson:2.10.1")
+
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+
+                implementation("com.jcraft:jsch:0.1.55")
             }
         }
         val commonTest by getting {
