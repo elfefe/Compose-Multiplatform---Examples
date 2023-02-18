@@ -15,6 +15,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "ComposeGameDev"
+rootProject.name = "Compose Multiplatform - Examples"
 
 include(":android", ":desktop", ":common")
