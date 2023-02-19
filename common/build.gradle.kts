@@ -14,8 +14,11 @@ kotlin {
     jvm("desktop") {
         jvmToolchain(11)
     }
+
     sourceSets {
         val commonMain by getting {
+            resources.srcDirs("resources")
+
             dependencies {
                 api(compose.runtime)
                 api(compose.foundation)
@@ -26,13 +29,13 @@ kotlin {
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
 
+                implementation("io.ktor:ktor-server-core:$ktorVersion")
+                implementation("io.ktor:ktor-server-netty:$ktorVersion")
+
                 implementation("com.jcraft:jsch:0.1.55")
 
                 implementation("org.apache.poi:poi:5.2.0")
                 implementation("org.apache.poi:poi-ooxml:5.2.0")
-
-                implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha07")
-                implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha07")
             }
         }
         val commonTest by getting {
